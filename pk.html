@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="">
+    <title>CJ pk</title>
+</head>
+<style>
+    *{
+        margin: 0px;
+    }
+    canvas{
+        border: 15px solid red;
+    }
+</style>
+<body>
+    <canvas id="mycanvas"></canvas>
+<script>
+    const WIDTH_CV = screen.width -30;
+    const HEIGHT_CV = WIDTH_CV/2.2;
+    var xmain=70,ymain=70,g=0,speedx=30,speedy=100,ajump=50,speedbullet = 0;
+    // khoi tao dan
+    var bl = [];
+    for(let i=0; i<=1;i++)
+    {
+        bl[i] = new bullet();
+    }
+
+    var cv = document.getElementById("mycanvas");
+    cv.width=WIDTH_CV;
+    cv.height=HEIGHT_CV;
+    var ctx = cv.getContext("2d");
+
+    setInterval(game,33);
+    function game()
+    {
+        bg();
+        document.addEventListener("keydown",event1);
+        update();
+        bl[0].update();
+        if(shootbullet = true)
+        bl[0].drawing();
+        drawing();
+    }
+    function bg()
+    {
+        ctx.fillStyle = "rgb(44,44,44)";
+        ctx.fillRect(0,0,WIDTH_CV,HEIGHT_CV);
+    }
+    function drawing()
+    {
+        ctx.fillStyle="lightblue";
+        ctx.fillRect(xmain,ymain,30,30);
+    }
+    function update()
+    {
+        if(xmain<0)
+        {
+            xmain=0;
+        }
+        if(xmain>WIDTH_CV-30)
+        {
+            xmain=WIDTH_CV-30;
+        }
+        if(ymain<HEIGHT_CV-30)
+        {
+            ajump=0;
+            ymain+=g;
+            g=g+0.5;
+        }
+        else
+        {
+            ajump=50;
+            g=0;      
+            ymain=HEIGHT_CV-30;
+        }
+    }
+    function event1(e)
+    {
+        if(e.keyCode == 37)
+        {
+            xmain-=speedx;
+        }
+        if(e.keyCode == 38)
+        {
+            ymain-=ajump;      
+        }
+        if(e.keyCode == 39)
+        {
+            xmain+=speedx;
+        }
+        if(e.keyCode == 40)
+        {
+            ymain+=ajump;
+        }
+        if(e.keyCode == 76)
+        {
+            bl[0].xbullet= xmain + 5;
+            bl[0].ybullet= ymain + 5;
+            speedbullet=25;
+            shootbullet = true;
+        }
+    }
+    function bullet(xbullet,ybullet)
+    {
+        this.xbullet = xbullet;
+        this.ybullet = ybullet;
+        this.event2 = function()
+        {
+            
+        }
+        this.drawing = function()
+        {
+            ctx.fillStyle = "rgb(0,200,0)";
+            ctx.fillRect(this.xbullet,this.ybullet,10,5);
+        }
+        this.update = function()
+        {
+            this.xbullet+=speedbullet;
+            if(this.xbullet > WIDTH_CV)
+            {
+                speedbullet=0;
+            }
+        }
+    }
+</script>
+</body>
+</html>

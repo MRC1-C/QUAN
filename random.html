@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<style>
+    body{
+        text-align: center;
+        background-image: url("background.jpg");
+    }
+    *{
+        margin: 0px;
+    }
+   #quan{
+        font-size: 200px;
+   }
+   .background{
+    width: 100%;
+    height: 300px;
+    text-align: center;
+    margin-top: 20px;
+   }
+   #btquan{
+       padding: 20px;
+       font-size: 15px;
+   }
+   #_ip{
+       text-align: center;
+   }
+</style>
+<body>
+    <div class="background">
+        <input type="text" id="_ip">
+        <div id="quan">0</div>
+        <button onclick="bt()" value="OK" id="btquan">OK</button>
+    </div>
+<script>
+    var t1 = 0;
+    function bt()
+    {
+       
+        var  ip=document.getElementById("_ip").value ;
+        var t = setInterval(drawing,1000/15);
+        function drawing()
+        {
+            
+            document.getElementById("quan").innerHTML=Math.floor(Math.random()*ip) + 1;
+            if(t1==30)
+                {
+                    clearInterval(t);    
+                    t1=0;
+                }
+            t1++;    
+        } 
+    }
+</script>
+</body>
+</html>
