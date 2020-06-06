@@ -19,35 +19,78 @@
 <script>
     const WIDTH_CV = screen.width -30;
     const HEIGHT_CV = WIDTH_CV/2.2;
-    var xmain=70,ymain=70,g=0,speedx=30,speedy=100,ajump=50,speedbullet = 0;
+    var xmain=100,ymain=0,g=0,g2=0,xmain2=WIDTH_CV-100,ymain2=0,speedx=50,speedy=30,ajump=100,ajump2=100,speedbullet = 25,speedbullet1 = -25;
     // khoi tao dan
-    var bl = [];
-    for(let i=0; i<=1;i++)
-    {
-        bl[i] = new bullet();
-    }
+
+    bl = new bullet();
+    bl1 = new bullet1();
 
     var cv = document.getElementById("mycanvas");
     cv.width=WIDTH_CV;
     cv.height=HEIGHT_CV;
     var ctx = cv.getContext("2d");
 
-    setInterval(game,33);
+    var loop = setInterval(game,40);
     function game()
     {
         bg();
+        island();
         document.addEventListener("keydown",event1);
+        document.addEventListener("keydown",event2);
         update();
-        bl[0].update();
+        update2();
+        bl.update();
+        bl1.update();
+
+        if( bl.xbullet >=xmain2 -10 && bl.xbullet <= xmain2 +30 && bl.ybullet >= ymain2 - 5 && bl.ybullet <= ymain2 +30)
+        {
+            ctx.font = "50px Arial";
+            ctx.fillText("1 Win",WIDTH_CV*0.45,0.3*HEIGHT_CV);
+            clearInterval(loop);
+
+        }
+        if( bl1.xbullet >=xmain -10 && bl1.xbullet <= xmain +30 && bl1.ybullet >= ymain - 5 && bl1.ybullet <= ymain +30)
+        {
+            ctx.font = "50px Arial";
+            ctx.fillText("2 Win",WIDTH_CV*0.45,0.3*HEIGHT_CV);
+            clearInterval(loop);
+        }
+
         if(shootbullet = true)
-        bl[0].drawing();
+        {
+            bl.drawing();
+        }
+        if(shootbullet1 = true)
+        {
+            bl1.drawing();
+        }
         drawing();
+        drawing2();
     }
     function bg()
     {
         ctx.fillStyle = "rgb(44,44,44)";
         ctx.fillRect(0,0,WIDTH_CV,HEIGHT_CV);
     }
+    function island()
+    {
+        ctx.fillStyle = "rgb(0,255,255)";
+        ctx.fillRect(0.25*WIDTH_CV,0.9*HEIGHT_CV,0.5*WIDTH_CV,25);
+        ctx.fillRect(0.25*WIDTH_CV,0.5*HEIGHT_CV,0.5*WIDTH_CV,25);
+        ctx.fillRect(0.25*WIDTH_CV,0.1*HEIGHT_CV,0.5*WIDTH_CV,25);
+
+        ctx.fillRect(0.05*WIDTH_CV,0.77*HEIGHT_CV,0.15*WIDTH_CV,25);
+        ctx.fillRect(0.05*WIDTH_CV,0.63*HEIGHT_CV,0.15*WIDTH_CV,25);
+        ctx.fillRect(0.05*WIDTH_CV,0.38*HEIGHT_CV,0.15*WIDTH_CV,25);
+        ctx.fillRect(0.05*WIDTH_CV,0.23*HEIGHT_CV,0.15*WIDTH_CV,25);
+
+        ctx.fillRect(0.8*WIDTH_CV,0.77*HEIGHT_CV,0.15*WIDTH_CV,25);
+        ctx.fillRect(0.8*WIDTH_CV,0.63*HEIGHT_CV,0.15*WIDTH_CV,25);
+        ctx.fillRect(0.8*WIDTH_CV,0.38*HEIGHT_CV,0.15*WIDTH_CV,25);
+        ctx.fillRect(0.8*WIDTH_CV,0.23*HEIGHT_CV,0.15*WIDTH_CV,25);
+
+    }
+    //main1
     function drawing()
     {
         ctx.fillStyle="lightblue";
@@ -63,7 +106,7 @@
         {
             xmain=WIDTH_CV-30;
         }
-        if(ymain<HEIGHT_CV-30)
+        if(ymain <HEIGHT_CV-30)
         {
             ajump=0;
             ymain+=g;
@@ -71,33 +114,103 @@
         }
         else
         {
-            ajump=50;
+            ajump=100;
             g=0;      
             ymain=HEIGHT_CV-30;
+        }
+        if(xmain + 30 >= 0.25*WIDTH_CV && xmain <= 0.75*WIDTH_CV && ymain +30 >= 0.9*HEIGHT_CV && ymain +30 <= 0.9*HEIGHT_CV +25)
+        {
+            g=0;
+            ajump = 100;
+            ymain=0.9*HEIGHT_CV -30;
+        }
+        if(xmain + 30 >= 0.25*WIDTH_CV && xmain <= 0.75*WIDTH_CV && ymain +30 >= 0.5*HEIGHT_CV && ymain +30 <= 0.5*HEIGHT_CV +25)
+        {
+            g=0;
+            ajump = 100;
+            ymain=0.5*HEIGHT_CV -30;
+        } 
+        if(xmain + 30 >= 0.25*WIDTH_CV && xmain <= 0.75*WIDTH_CV && ymain +30 >= 0.1*HEIGHT_CV && ymain +30 <= 0.1*HEIGHT_CV +25)
+        {
+            g=0;
+            ajump = 100;
+            ymain=0.1*HEIGHT_CV -30;
+        }
+        //small1
+        if(xmain + 30 >= 0.05*WIDTH_CV && xmain <= 0.2*WIDTH_CV && ymain +30 >= 0.77*HEIGHT_CV && ymain +30 <= 0.77*HEIGHT_CV +25)
+        {
+            g=0;
+            ajump = 100;
+            ymain=0.77*HEIGHT_CV -30;
+        }
+        if(xmain + 30 >= 0.05*WIDTH_CV && xmain <= 0.2*WIDTH_CV && ymain +30 >= 0.63*HEIGHT_CV && ymain +30 <= 0.63*HEIGHT_CV +25)
+        {
+            g=0;
+            ajump = 100;
+            ymain=0.63*HEIGHT_CV -30;
+        }
+        if(xmain + 30 >= 0.05*WIDTH_CV && xmain <= 0.2*WIDTH_CV && ymain +30 >= 0.38*HEIGHT_CV && ymain +30 <= 0.38*HEIGHT_CV +25)
+        {
+            g=0;
+            ajump = 100;
+            ymain=0.38*HEIGHT_CV -30;
+        }
+        if(xmain + 30 >= 0.05*WIDTH_CV && xmain <= 0.2*WIDTH_CV && ymain +30 >= 0.23*HEIGHT_CV && ymain +30 <= 0.23*HEIGHT_CV +25)
+        {
+            g=0;
+            ajump = 100;
+            ymain=0.23*HEIGHT_CV -30;
+        }
+        //small2
+        if(xmain + 30 >= 0.8*WIDTH_CV && xmain <= 0.95*WIDTH_CV && ymain +30 >= 0.77*HEIGHT_CV && ymain +30 <= 0.77*HEIGHT_CV +25)
+        {
+            g=0;
+            ajump = 100;
+            ymain=0.77*HEIGHT_CV -30;
+        }
+        if(xmain + 30 >= 0.8*WIDTH_CV && xmain <= 0.95*WIDTH_CV && ymain +30 >= 0.63*HEIGHT_CV && ymain +30 <= 0.63*HEIGHT_CV +25)
+        {
+            g=0;
+            ajump = 100;
+            ymain=0.63*HEIGHT_CV -30;
+        }
+        if(xmain + 30 >= 0.8*WIDTH_CV && xmain <= 0.95*WIDTH_CV && ymain +30 >= 0.38*HEIGHT_CV && ymain +30 <= 0.38*HEIGHT_CV +25)
+        {
+            g=0;
+            ajump = 100;
+            ymain=0.38*HEIGHT_CV -30;
+        }
+        if(xmain + 30 >= 0.8*WIDTH_CV && xmain <= 0.95*WIDTH_CV && ymain +30 >= 0.23*HEIGHT_CV && ymain +30 <= 0.23*HEIGHT_CV +25)
+        {
+            g=0;
+            ajump = 100;
+            ymain=0.23*HEIGHT_CV -30;
         }
     }
     function event1(e)
     {
-        if(e.keyCode == 37)
+        if(e.keyCode == 65)
         {
             xmain-=speedx;
+            speedbullet=-25;
         }
-        if(e.keyCode == 38)
+        if(e.keyCode == 87)
         {
             ymain-=ajump;      
         }
-        if(e.keyCode == 39)
+        if(e.keyCode == 68)
         {
             xmain+=speedx;
+            speedbullet=25;
         }
-        if(e.keyCode == 40)
+        if(e.keyCode == 83)
         {
-            ymain+=ajump;
+            ymain+=30;
         }
-        if(e.keyCode == 76)
+        if(e.keyCode == 70)
         {
-            bl[0].xbullet= xmain + 5;
-            bl[0].ybullet= ymain + 5;
+            bl.xbullet= xmain + 5;
+            bl.ybullet= ymain + 5;
             speedbullet=25;
             shootbullet = true;
         }
@@ -106,10 +219,6 @@
     {
         this.xbullet = xbullet;
         this.ybullet = ybullet;
-        this.event2 = function()
-        {
-            
-        }
         this.drawing = function()
         {
             ctx.fillStyle = "rgb(0,200,0)";
@@ -118,9 +227,152 @@
         this.update = function()
         {
             this.xbullet+=speedbullet;
-            if(this.xbullet > WIDTH_CV)
+            if(this.xbullet > WIDTH_CV || this.xbullet < 0)
             {
                 speedbullet=0;
+            }
+        }
+    }
+    //main2
+    function drawing2()
+    {
+        ctx.fillStyle="rgb(255,0,255)";
+        ctx.fillRect(xmain2,ymain2,30,30);
+    }
+    function update2()
+    {
+        if(xmain2<0)
+        {
+            xmain2=0;
+        }
+        if(xmain2>WIDTH_CV-30)
+        {
+            xmain2=WIDTH_CV-30;
+        }
+        if(ymain2 <HEIGHT_CV-30)
+        {
+            ajump2=0;
+            ymain2+=g2;
+            g2=g2+0.5;
+        }
+        else
+        {
+            ajump2=100;
+            g2=0;      
+            ymain2=HEIGHT_CV-30;
+        }
+        if(xmain2 + 30 >= 0.25*WIDTH_CV && xmain2 <= 0.75*WIDTH_CV && ymain2 +30 >= 0.9*HEIGHT_CV && ymain2 +30 <= 0.9*HEIGHT_CV +25)
+        {
+            g2=0;
+            ajump2 = 100;
+            ymain2=0.9*HEIGHT_CV -30;
+        }
+        if(xmain2 + 30 >= 0.25*WIDTH_CV && xmain2 <= 0.75*WIDTH_CV && ymain2 +30 >= 0.5*HEIGHT_CV && ymain2 +30 <= 0.5*HEIGHT_CV +25)
+        {
+            g2=0;
+            ajump2 = 100;
+            ymain2=0.5*HEIGHT_CV -30;
+        } 
+        if(xmain2 + 30 >= 0.25*WIDTH_CV && xmain2 <= 0.75*WIDTH_CV && ymain2 +30 >= 0.1*HEIGHT_CV && ymain2 +30 <= 0.1*HEIGHT_CV +25)
+        {
+            g2=0;
+            ajump2 = 100;
+            ymain2=0.1*HEIGHT_CV -30;
+        }
+        //small1
+        if(xmain2 + 30 >= 0.05*WIDTH_CV && xmain2 <= 0.2*WIDTH_CV && ymain2 +30 >= 0.77*HEIGHT_CV && ymain2 +30 <= 0.77*HEIGHT_CV +25)
+        {
+            g2=0;
+            ajump2 = 100;
+            ymain2=0.77*HEIGHT_CV -30;
+        }
+        if(xmain2 + 30 >= 0.05*WIDTH_CV && xmain2 <= 0.2*WIDTH_CV && ymain2 +30 >= 0.63*HEIGHT_CV && ymain2 +30 <= 0.63*HEIGHT_CV +25)
+        {
+            g2=0;
+            ajump2 = 100;
+            ymain2=0.63*HEIGHT_CV -30;
+        }
+        if(xmain2 + 30 >= 0.05*WIDTH_CV && xmain2 <= 0.2*WIDTH_CV && ymain2 +30 >= 0.38*HEIGHT_CV && ymain2 +30 <= 0.38*HEIGHT_CV +25)
+        {
+            g2=0;
+            ajump2 = 100;
+            ymain2=0.38*HEIGHT_CV -30;
+        }
+        if(xmain2 + 30 >= 0.05*WIDTH_CV && xmain2 <= 0.2*WIDTH_CV && ymain2 +30 >= 0.23*HEIGHT_CV && ymain2 +30 <= 0.23*HEIGHT_CV +25)
+        {
+            g2=0;
+            ajump2 = 100;
+            ymain2=0.23*HEIGHT_CV -30;
+        }
+        //small2
+        if(xmain2 + 30 >= 0.8*WIDTH_CV && xmain2 <= 0.95*WIDTH_CV && ymain2 +30 >= 0.77*HEIGHT_CV && ymain2 +30 <= 0.77*HEIGHT_CV +25)
+        {
+            g2=0;
+            ajump2 = 100;
+            ymain2=0.77*HEIGHT_CV -30;
+        }
+        if(xmain2 + 30 >= 0.8*WIDTH_CV && xmain2 <= 0.95*WIDTH_CV && ymain2 +30 >= 0.63*HEIGHT_CV && ymain2 +30 <= 0.63*HEIGHT_CV +25)
+        {
+            g2=0;
+            ajump2 = 100;
+            ymain2=0.63*HEIGHT_CV -30;
+        }
+        if(xmain2 + 30 >= 0.8*WIDTH_CV && xmain2 <= 0.95*WIDTH_CV && ymain2 +30 >= 0.38*HEIGHT_CV && ymain2 +30 <= 0.38*HEIGHT_CV +25)
+        {
+            g2=0;
+            ajump2 = 100;
+            ymain2=0.38*HEIGHT_CV -30;
+        }
+        if(xmain2 + 30 >= 0.8*WIDTH_CV && xmain2 <= 0.95*WIDTH_CV && ymain2 +30 >= 0.23*HEIGHT_CV && ymain2 +30 <= 0.23*HEIGHT_CV +25)
+        {
+            g2=0;
+            ajump2 = 100;
+            ymain2=0.23*HEIGHT_CV -30;
+        }
+    }
+    function event2(e2)
+    {
+        if(e2.keyCode == 37)
+        {
+            xmain2-=speedx;
+            speedbullet1=-25;
+        }
+        if(e2.keyCode == 38)
+        {
+            ymain2-=ajump2;      
+        }
+        if(e2.keyCode == 39)
+        {
+            xmain2+=speedx;
+            speedbullet1=25;
+        }
+        if(e2.keyCode == 40)
+        {
+            ymain2+=30;
+        }
+        if(e2.keyCode == 76)
+        {
+            bl1.xbullet= xmain2 + 5;
+            bl1.ybullet= ymain2 + 5;
+            speedbullet1=-25;
+            shootbullet1 = true;
+        }
+    }
+    function bullet1(xbullet,ybullet)
+    {
+        this.xbullet = xbullet;
+        this.ybullet = ybullet;
+        this.drawing = function()
+        {
+            ctx.fillStyle = "rgb(255,200,0)";
+            ctx.fillRect(this.xbullet,this.ybullet,10,5);
+        }
+        this.update = function()
+        {
+            this.xbullet+=speedbullet1;
+            if(this.xbullet > WIDTH_CV || this.xbullet < 0)
+            {
+                speedbullet1=0;
             }
         }
     }
